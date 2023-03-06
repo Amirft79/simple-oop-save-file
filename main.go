@@ -35,11 +35,34 @@ func FillCustomer(customer *customer) customer {
 
 }
 
+func FillAccount(account *account) account {
+	reader := bufio.NewReader(os.Stdin)
+	output, _ := readValue("please selcet your account options a(create account) b(save account) : ", reader)
+	switch output {
+	case "a":
+		fmt.Print("account number :")
+		read, _ := readValue("input your account number", reader)
+		account.setAccountNumber(read)
+		readedate, _ := readValue("input your account date", reader)
+		account.setAccountOpenDate(readedate)
+		readeId, _ := readValue("input  your account customer id ", reader)
+		account.setAccountCustomerId(readeId)
+		FillAccount(account)
+	case "s":
+		account.saveFile()
+	}
+	return *account
+
+}
+
 func main() {
 	customer := newCustomer()
 	customer = FillCustomer(&customer)
 	fmt.Println(customer)
 	fmt.Println(customer.getCustomerName())
 	fmt.Println(customer.getCustomerSureName())
-
+	account := newAccount()
+	account = FillAccount(&account)
+	fmt.Println(account)
+	fmt.Println(account.getAccountNumber())
 }
